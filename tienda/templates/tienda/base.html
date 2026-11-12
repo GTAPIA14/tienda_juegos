@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}Tienda de Juegos{% endblock %}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #263238;
+        }
+
+        header {
+            background: #263b50;
+            color: white;
+            padding: 22px 7%;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            background: #344f69;
+            padding: 14px 7%;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 25px;
+        }
+
+        .contenedor {
+            width: 86%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #263b50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #263b50;
+            color: white;
+            margin-top: 50px;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+
+    <header>
+        <h1>🎲 Tienda de Juegos de Mesa</h1>
+        <p>Encuentra tu próximo juego favorito</p>
+    </header>
+
+    <nav>
+        <a href="{% url 'inicio' %}">Inicio</a>
+    </nav>
+
+    <main class="contenedor">
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        Tienda de Juegos de Mesa - 2026
+    </footer>
+
+</body>
+</html>

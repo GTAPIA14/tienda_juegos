@@ -75,6 +75,11 @@ class Juego(models.Model):
         verbose_name="Disponible para la venta"
     )
 
+    # FORMATO DE PRECIO CHILENO
+    @property
+    def precio_formateado(self):
+        return f"${self.precio:,.0f}".replace(",", ".")
+
     def __str__(self):
         return self.nombre
 
@@ -134,6 +139,7 @@ class Pedido(models.Model):
     def save(self, *args, **kwargs):
         if not self.codigo:
             self.codigo = uuid.uuid4().hex[:12].upper()
+
         super().save(*args, **kwargs)
 
     def __str__(self):

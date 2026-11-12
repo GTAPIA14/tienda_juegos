@@ -1,0 +1,85 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}{{ juego.nombre }} - Tienda de Juegos{% endblock %}
+
+{% block estilos %}
+<style>
+    .detalle {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+    }
+
+    .detalle img {
+        width: 100%;
+        max-height: 400px;
+        object-fit: contain;
+    }
+
+    .precio {
+        font-size: 28px;
+        color: #16834a;
+        font-weight: bold;
+    }
+
+    @media (max-width: 650px) {
+        .detalle {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block contenido %}
+
+<a href="{% url 'inicio' %}">← Volver al catálogo</a>
+
+<div class="detalle">
+
+    <div>
+        {% if juego.imagen %}
+            <img src="{{ juego.imagen.url }}" alt="{{ juego.nombre }}">
+        {% endif %}
+    </div>
+
+    <div>
+
+        <h2>{{ juego.nombre }}</h2>
+
+        <p><strong>Categoría:</strong> {{ juego.categoria.nombre }}</p>
+
+        <p>{{ juego.descripcion }}</p>
+
+        <p class="precio">
+            {{ juego.precio_formateado }}
+        </p>
+
+        <p>
+            <strong>Jugadores:</strong>
+            {{ juego.cantidad_jugadores }}
+        </p>
+
+        <p>
+            <strong>Edad mínima:</strong>
+            {{ juego.edad_minima }} años
+        </p>
+
+        <p>
+            <strong>Stock:</strong>
+            {{ juego.stock }} unidades
+        </p>
+
+        {% if juego.stock == 0 %}
+            <p style="color:red;"><strong>Agotado</strong></p>
+        {% else %}
+            <p style="color:green;"><strong>Disponible</strong></p>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
