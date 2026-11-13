@@ -1,0 +1,158 @@
+{% extends 'tienda/base.html' %}
+
+{% block titulo %}Comprobante de pedido{% endblock %}
+
+{% block estilos %}
+<style>
+    .comprobante {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        max-width: 700px;
+        margin: 30px auto;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .exito {
+        color: #16834a;
+        text-align: center;
+        font-size: 26px;
+    }
+
+    .subtitulo {
+        text-align: center;
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    .fila {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 13px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .fila strong {
+        color: #333;
+    }
+
+    .valor {
+        text-align: right;
+    }
+
+    .total {
+        font-size: 26px;
+        color: #16834a;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 25px;
+    }
+
+    .codigo {
+        background: #f1f5f9;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .acciones {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    @media print {
+        nav, footer, .acciones {
+            display: none;
+        }
+
+        body {
+            background: white;
+        }
+
+        .comprobante {
+            box-shadow: none;
+        }
+    }
+</style>
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="comprobante">
+
+    <h2 class="exito">
+        ¡Pedido realizado correctamente!
+    </h2>
+
+    <p class="subtitulo">
+        Gracias por comprar en nuestra tienda.
+    </p>
+
+    <div class="codigo">
+        <strong>Código de pedido</strong>
+        <h2>{{ pedido.codigo }}</h2>
+    </div>
+
+    <h3>Información del pedido</h3>
+
+    <div class="fila">
+        <strong>Juego:</strong>
+        <span class="valor">{{ pedido.juego.nombre }}</span>
+    </div>
+
+    <div class="fila">
+        <strong>Cliente:</strong>
+        <span class="valor">{{ pedido.nombre_cliente }}</span>
+    </div>
+
+    <div class="fila">
+        <strong>Correo:</strong>
+        <span class="valor">{{ pedido.correo }}</span>
+    </div>
+
+    <div class="fila">
+        <strong>Teléfono:</strong>
+        <span class="valor">{{ pedido.telefono }}</span>
+    </div>
+
+    <div class="fila">
+        <strong>Cantidad:</strong>
+        <span class="valor">{{ pedido.cantidad }} unidades</span>
+    </div>
+
+    <div class="fila">
+        <strong>Precio unitario:</strong>
+        <span class="valor">
+            {{ pedido.precio_unitario_formateado }}
+        </span>
+    </div>
+
+    <div class="fila">
+        <strong>Fecha y hora:</strong>
+        <span class="valor">
+            {{ pedido.fecha_pedido|date:"d/m/Y H:i" }}
+        </span>
+    </div>
+
+    <p class="total">
+        Total: {{ pedido.total_formateado }}
+    </p>
+
+    <div class="acciones">
+
+        <a href="{% url 'inicio' %}" class="boton">
+            Volver a la tienda
+        </a>
+
+        <button onclick="window.print()" class="boton">
+            Imprimir comprobante
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock %}

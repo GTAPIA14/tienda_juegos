@@ -2,11 +2,6 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 import uuid
 
-
-# ==========================================
-# MODELO: CATEGORIA
-# ==========================================
-
 class Categoria(models.Model):
 
     nombre = models.CharField(
@@ -22,11 +17,6 @@ class Categoria(models.Model):
         verbose_name = "Categoría"
         verbose_name_plural = "Categorías"
         ordering = ["nombre"]
-
-
-# ==========================================
-# MODELO: JUEGO
-# ==========================================
 
 class Juego(models.Model):
 
@@ -75,7 +65,7 @@ class Juego(models.Model):
         verbose_name="Disponible para la venta"
     )
 
-    # FORMATO DE PRECIO CHILENO
+    
     @property
     def precio_formateado(self):
         return f"${self.precio:,.0f}".replace(",", ".")
@@ -88,10 +78,6 @@ class Juego(models.Model):
         verbose_name_plural = "Juegos"
         ordering = ["nombre"]
 
-
-# ==========================================
-# MODELO: PEDIDO
-# ==========================================
 
 class Pedido(models.Model):
 
@@ -131,16 +117,38 @@ class Pedido(models.Model):
         verbose_name="Cantidad de unidades"
     )
 
+    precio_unitario = models.PositiveIntegerField(
+        default=0,
+        editable=False,
+        verbose_name="Precio unitario al pedir"
+    )
+
     fecha_pedido = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Fecha y hora del pedido"
     )
 
     def save(self, *args, **kwargs):
+
         if not self.codigo:
             self.codigo = uuid.uuid4().hex[:12].upper()
 
         super().save(*args, **kwargs)
+
+    
+    @property
+    def total(self):
+        return self.precio_unitario * self.cantidad
+
+    
+    @property
+    def precio_unitario_formateado(self):
+        return f"${self.precio_unitario:,.0f}".replace(",", ".")
+
+    
+    @property
+    def total_formateado(self):
+        return f"${self.total:,.0f}".replace(",", ".")
 
     def __str__(self):
         return f"{self.codigo} - {self.nombre_cliente}"

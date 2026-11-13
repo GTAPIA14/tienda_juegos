@@ -1,3 +1,4 @@
+
 {% extends 'tienda/base.html' %}
 
 {% block titulo %}{{ juego.nombre }} - Tienda de Juegos{% endblock %}
@@ -25,6 +26,32 @@
         font-weight: bold;
     }
 
+    .formulario-pedido {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        margin-top: 25px;
+    }
+
+    .campo {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 6px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .errorlist {
+        color: #c0392b;
+    }
+
+    .agotado {
+        color: #c0392b;
+        font-weight: bold;
+    }
+
     @media (max-width: 650px) {
         .detalle {
             grid-template-columns: 1fr;
@@ -32,6 +59,7 @@
     }
 </style>
 {% endblock %}
+
 
 {% block contenido %}
 
@@ -49,7 +77,10 @@
 
         <h2>{{ juego.nombre }}</h2>
 
-        <p><strong>Categoría:</strong> {{ juego.categoria.nombre }}</p>
+        <p>
+            <strong>Categoría:</strong>
+            {{ juego.categoria.nombre }}
+        </p>
 
         <p>{{ juego.descripcion }}</p>
 
@@ -73,12 +104,43 @@
         </p>
 
         {% if juego.stock == 0 %}
-            <p style="color:red;"><strong>Agotado</strong></p>
+            <p class="agotado">AGOTADO</p>
         {% else %}
-            <p style="color:green;"><strong>Disponible</strong></p>
+            <p style="color:green;">Disponible</p>
         {% endif %}
 
     </div>
+
+</div>
+
+
+<div class="formulario-pedido">
+
+    <h2>Realizar pedido</h2>
+
+    {% if juego.stock > 0 %}
+
+        <p>Completa tus datos para solicitar este juego.</p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="boton">
+                Confirmar pedido
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <p class="agotado">
+            Este juego está agotado y no permite realizar pedidos.
+        </p>
+
+    {% endif %}
 
 </div>
 
